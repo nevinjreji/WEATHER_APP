@@ -47,7 +47,7 @@
         myInput.addEventListener('change', async () => {
             const location = myInput.value;
             try {
-                const response = await fetch(`http://localhost:3000/weather?location=${location}`);
+                const response = await fetch(`https://weather-app-m46u.onrender.com/weather?location=${location}`);
                 const weatherData = await response.json();
     
                 locationDisplay.textContent = weatherData.name;
