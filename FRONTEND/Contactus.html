@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link rel="stylesheet" type="text/css" href="Contactus.css">
+</head>
+
+<body>
+    <header class="header">
+        <a href="#" class="logo"> CLOUDCRAZE</a>
+        <nav class="navbar">
+            <a href="index.html" class="active">HOME</a>
+            <a href="pricing.html">PRICING</a>
+            <a href="aboutus.html">ABOUT US </a>
+            <a href="#">CONTACT US</a>
+        </nav>
+    </header>
+
+    <section class="home">
+        <div class="contactus">
+            <h1>CONTACT US</h1>
+            <form action="/submit" method="POST" class="form">
+                <div class="input-group">
+                    <input type="text" name="firstName" id="first_name" placeholder="First name">
+                </div>
+                <div class="input-group">
+                    <input type="text" name="lastName" id="last_name" placeholder="Last Name">
+                </div>
+                <div class="input-group">
+                    <input type="email" name="email" id="e-mail" placeholder="e-mail">
+                </div>
+                <div class="textarea-group">
+                    <textarea name="message" id="message" rows="5" placeholder="Message"></textarea>
+                </div>
+                <div class="button-div">
+                    <button type="submit">Send</button>
+                </div>
+            </form>            
+        </div>
+    </section>
+
+    <footer>
+        <a href="https://facebook.com/" target="_blank"><img class="social-media-img" src="Facebook.png" alt="Facebook"></a>
+        <a href="https://GitHub.com/" target="_blank"><img class="social-media-img" src="Github.png" alt="GitHub"></a>
+        <a href="https://instagram.com/" target="_blank"><img class="social-media-img" src="Instagram.png" alt="Instagram"></a>
+        <a href="#"><img class="codecell-img" src="cloudcraze-high-resolution-logo-white.png" alt="CloudCraze ContactCell"></a>
+        <a href="https://LinkedIn.com/" target="_blank"><img class="social-media-img" src="LinkedIn.png" alt="LinkedIn"></a>
+        <a href="https://x.com/" target="_blank"><img class="social-media-img" src="Twitter.png" alt="Twitter"></a>
+        <a href="https://Youtube.com/" target="_blank"><img class="social-media-img" src="Youtube.png" alt="YouTube"></a>
+    </footer>
+    <script src = "contactus.js"></script>
+    <div id="myModal" class="modal">
+        <div class="modal-content">
+          <span class="close">&times;</span>
+          <p>Contact form submitted successfully!</p>
+        </div>
+      </div>
+      
+</body>
+
+</html>

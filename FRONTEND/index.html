@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+        
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+		
+        <title>WEATHER APP</title>
+		<link rel="stylesheet" href="style.css">
+	
+    </head>
+
+	<body>
+		<header class="header">
+			<a href="#" class="logo"> CLOUDCRAZE</a>
+			<nav class="navbar">
+				<a href="#" class="active">HOME</a>
+				<a href="pricing.html">PRICING</a>
+				<a href="aboutus.html">ABOUT US </a>
+				<a href="contactus.html">CONTACT US</a>
+			</nav>
+		</header>
+		<section class="home">
+
+			<div class="home-content">
+
+                <div class = "home-img">
+                    <img src = "cloudcraze-high-resolution-logo-white.png">
+                    <div class="btn-box">
+                        <a href="getweather.html">GET WEATHER</a>
+                    </div>
+                
+                </div>
+			</div>
+
+		</section>
+
+		<script>
+			window.watsonAssistantChatOptions = {
+			  integrationID: "f246c161-a539-48aa-8387-a1d9e63e0319", // The ID of this integration.
+			  region: "us-south", // The region your integration is hosted in.
+			  serviceInstanceID: "94878fb9-3162-442d-9977-d93ebe3d15c7", // The ID of your service instance.
+			  onLoad: async (instance) => { await instance.render(); }
+			};
+			setTimeout(function(){
+			  const t=document.createElement('script');
+			  t.src="https://web-chat.global.assistant.watson.appdomain.cloud/versions/" + (window.watsonAssistantChatOptions.clientVersion || 'latest') + "/WatsonAssistantChatEntry.js";
+			  document.head.appendChild(t);
+			});
+		  </script>
+	</body>
+	
+</html>

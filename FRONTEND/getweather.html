@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <title>PREDICT WEATHER</title>
+    
+    <link rel="stylesheet" href="getweather.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo"> CLOUDCRAZE</a>
+        <nav class="navbar">
+            <a href="index.html" class="active">HOME</a>
+            <a href="pricing.html">PRICING</a>
+            <a href="aboutus.html">ABOUT US </a>
+            <a href="Contactus.html">CONTACT US</a>
+        </nav>
+    </header>
+    <section class="getweather-content">
+        <input type="text" class="search-button" id="myInput" placeholder="Enter location...">
+        <div id="weatherInfo" style="display: none;">
+            <h2>Weather Information</h2>
+            <p><strong>Location:</strong> <span id="location"></span></p>
+            <p><strong>Temperature:</strong> <span id="temperature"></span></p>
+            <p><strong>Feels Like: </strong><span id = "feels_like"></span></p>
+            <p><strong>Pressure: </strong> <span id="pressure"></span></p>
+            <p><strong>Humidity: </strong><span id = "humidity"></span></p>
+            <p><strong>Description: </strong> <span id="description"></span></p>
+        </div>
+    </section>
+
+    <script>
+        const myInput = document.getElementById('myInput');
+        const weatherInfo = document.getElementById('weatherInfo');
+        const locationDisplay = document.getElementById('location');
+        const temperatureDisplay = document.getElementById('temperature');
+        const feelsLikeDisplay = document.getElementById('feels_like');
+        const pressureDisplay = document.getElementById('pressure');
+        const HumdityDisplay = document.getElementById('humidity');
+        const descriptionDisplay = document.getElementById('description');
+    
+        myInput.addEventListener('change', async () => {
+            const location = myInput.value;
+            try {
+                const response = await fetch(`http://localhost:3000/weather?location=${location}`);
+                const weatherData = await response.json();
+    
+                locationDisplay.textContent = weatherData.name;
+                temperatureDisplay.textContent = `${weatherData.main.temp} °C`;
+                feelsLikeDisplay.textContent = `${weatherData.main.feels_like} °C`;
+                pressureDisplay.textContent = `${weatherData.main.pressure} P`;
+                HumdityDisplay.textContent = `${weatherData.main.humidity} 💧`;
+                descriptionDisplay.textContent = weatherData.weather[0].description;
+                
+                weatherInfo.style.display = 'block'; // Show weather information
+            } catch (error) {
+                console.error('Error fetching weather data:', error);
+                locationDisplay.textContent = 'Unable to fetch weather data';
+                temperatureDisplay.textContent = '';
+                feelsLikeDisplay.textContent = ' ';
+                pressureDisplay.textContent = ' ';
+                HumdityDisplay.textContent = ' ';
+                descriptionDisplay.textContent = '';
+                weatherInfo.style.display = 'none'; // Hide weather information
+            }
+        });
+    
+    </script>
+    
+</body>
+</html>

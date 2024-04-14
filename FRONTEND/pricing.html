@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap" rel="stylesheet">
+    <title>WEATHER APP</title>
+    <link rel="stylesheet" href="pricing.css">
+    <style>
+        /* Modal styles */
+        .modal {
+            display: none; /* Hidden by default */
+            position: fixed; /* Stay in place */
+            z-index: 1; /* Sit on top */
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto; /* Enable scroll if needed */
+            background-color: rgb(0,0,0); /* Fallback color */
+            background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+    
+        /* Modal content */
+        .modal-content {
+            background-color: #fefefe;
+            margin: 15% auto; /* 15% from the top and centered */
+            padding: 20px;
+            border: 1px solid #888;
+            width: 70%; /* Adjusted width */
+            max-width: 300px; /* Maximum width */
+        }
+    
+        /* Close button */
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+        }
+    
+        .close:hover,
+        .close:focus {
+            color: black;
+            text-decoration: none;
+            cursor: pointer;
+        }
+    </style>
+    
+</head>
+<body>
+    <header class="header">
+        <a href="index.html" class="logo"> CLOUDCRAZE</a>
+        <nav class="navbar">
+            <a href="index.html">HOME</a>
+            <a href="pricing.html">PRICING</a>
+            <a href="aboutus.html">ABOUT US</a>
+            <a href="contactus.html">CONTACT US</a>
+        </nav>
+    </header>
+    <section class="pricing">
+        <div class="pricing-content">
+            <section class="cards">
+                <div class="card">
+                    <h2>Free Plan</h2>
+                    <ul>
+                        <li>Basic Weather Updates</li>
+                        <li>Limited Features</li>
+                        <li>No Historical Data</li>
+                    </ul>
+                    <a href="index.html" class="btn">Get Started</a>
+                </div>
+                <div class="card">
+                    <h2>Premium Plan</h2>
+                    <ul>
+                        <li>Detailed Weather Forecasts</li>
+                        <li>Hourly Updates</li>
+                        <li>Access to Historical Data</li>
+                        <li>Ad-free experience</li>
+                        <li>Email Support</li>
+                    </ul>
+                    <a href="#" class="btn" id="premiumBtn">Choose Plan</a>
+                </div>
+                <div class="card">
+                    <h2>Premium Plus Plan</h2>
+                    <ul>
+                        <li>All Premium Plan Features</li>
+                        <li>Advanced Weather Insights</li>
+                        <li>Customizable Notifications</li>
+                        <li>24/7 Priority Support</li>
+                        <li>Custom API Access</li>
+                    </ul>
+                    <a href="#" class="btn" id="premiumPlusBtn">Choose Plan</a>
+                </div>
+            </section>
+        </div>
+    </section>
+
+    <div id="qrModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div id="qrCodeContainer"></div>
+            <p id="paymentMessage"></p> <!-- Payment message -->
+        </div>
+    </div>
+
+    <script>
+        // Get the modal
+        var modal = document.getElementById("qrModal");
+
+        // Get the <span> element that closes the modal
+        var span = document.getElementsByClassName("close")[0];
+
+        // When the user clicks on the button, open the modal
+        document.getElementById("premiumBtn").addEventListener("click", function () {
+            generateQRCode('premium', 599);
+            document.getElementById("paymentMessage").textContent = "Please pay Rs 599 to continue."; // Update payment message
+            modal.style.display = "block";
+        });
+
+        document.getElementById("premiumPlusBtn").addEventListener("click", function () {
+            generateQRCode('premiumPlus', 1099);
+            document.getElementById("paymentMessage").textContent = "Please pay Rs 1099 to continue."; // Update payment message
+            modal.style.display = "block";
+        });
+
+        // When the user clicks on <span> (x), close the modal
+        span.onclick = function() {
+            modal.style.display = "none";
+        }
+
+        // When the user clicks anywhere outside of the modal, close it
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        function generateQRCode(plan, amount) {
+            const upi = '6282098167@apl'; // UPI ID
+            const url = `upi://pay?pa=${upi}&pn=Recipient%20Name&mc=${amount}`;
+
+            // Clear previous QR code if exists
+            const qrCodeContainer = document.getElementById('qrCodeContainer');
+            qrCodeContainer.innerHTML = '';
+
+            // Generate QR code
+            const qrCodeImg = document.createElement('img');
+            qrCodeImg.src = `https://api.qrserver.com/v1/create-qr-code/?data=${encodeURIComponent(url)}&size=200x200`;
+            qrCodeContainer.appendChild(qrCodeImg);
+
+            // Hide QR code after 25 seconds
+            setTimeout(() => {
+                qrCodeImg.style.display = 'none';
+
+                // Prompt user for UTR number
+                const utrNumber = prompt('Enter UTR Number:');
+                if (utrNumber) {
+                    // Display payment status
+                    checkPayment(utrNumber);
+                }
+            }, 250);
+        }
+
+        function checkPayment(utrNumber) {
+            // Show spinner
+            const paymentMessage = document.getElementById('paymentMessage');
+            paymentMessage.textContent = 'Verifying payment...';
+            // Send request to server to check payment status
+            fetch('/checkPayment', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ utrNumber: utrNumber })
+            })
+            .then(response => response.text())
+            .then(data => {
+                // Update payment message
+                paymentMessage.textContent = data;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
+        }
+    </script>
+</body>
+</html>
